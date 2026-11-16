@@ -126,7 +126,7 @@ export function mountSewa(host, ctx) {
   let logoSrc = new URL('abedin-car-rental-logo.webp', location.href).href;
   // simpan logo sebagai data URL supaya sentiasa muncul dalam tetingkap cetak
   fetch(logoSrc).then(r => r.blob()).then(b => new Promise(ok => { const f = new FileReader(); f.onload = () => ok(f.result); f.readAsDataURL(b); })).then(d => { logoSrc = d; }).catch(() => {});
-  const S = { kereta: [], keretaErr: '', kid: null, rows: [], loaded: false, error: '', filter: 'semua', q: '', view: 'list', id: null, terma: null, urls: {}, msg: '' };
+  const S = { staf: null, wa: null, kereta: [], keretaErr: '', kid: null, rows: [], loaded: false, error: '', filter: 'semua', q: '', view: 'list', id: null, terma: null, urls: {}, msg: '' };
 
   async function load() {
     S.error = '';
@@ -163,7 +163,7 @@ export function mountSewa(host, ctx) {
       ${shareCard()}
       <div class="tabs">${['semua', ...Object.keys(STATUS)].map(k => `<button class="tab" data-f="${k}" aria-pressed="${S.filter === k}">${k === 'semua' ? 'Semua' : STATUS[k]}<i>${counts[k]}</i></button>`).join('')}
       <button class="tab" data-a="stok" aria-pressed="false">🚗 Stok Kereta<i>${S.kereta.length}</i></button>
-      ${owner ? `<button class="tab" data-a="terma" aria-pressed="false">⚙ Terma & Syarat</button>` : ''}</div>
+      ${owner ? `<button class="tab" data-a="terma" aria-pressed="false">⚙ Tetapan</button>${ctx.manageStaff ? '<button class="tab" data-a="staf" aria-pressed="false">👤 Staf</button>' : ''}` : ''}</div>
       <div class="row"><input id="q" placeholder="Cari nama, no rujukan, telefon, model…" value="${esc(S.q)}" style="flex:1;min-width:200px"><button class="btn" data-a="refresh">Refresh</button></div>
       ${S.error ? `<div class="card" style="border-color:#5a2a26;color:var(--bad)">${esc(S.error)}</div>` : ''}
       <div class="list">${!S.loaded ? '<div class="empty">Memuatkan…</div>' : rows.map(r => `
@@ -384,15 +384,33 @@ export function mountSewa(host, ctx) {
     ['harga_hari_customer', 'harga_hari_agen'].forEach(k => g(k).addEventListener('input', u)); u();
   }
 
+  function stafView() {
+    const rows = S.staf;
+    return `<button class="back" data-a="back">← Senarai Sewa</button><h2>Staf</h2>
+      <p class="mute">Staf daftar sendiri di halaman admin (pautan "Daftar akaun staf"). Akaun baharu tidak aktif sehingga anda tekan <b>Aktifkan</b>.</p>
+      <div class="list">${rows === null ? '<div class="empty">Memuatkan…</div>' : rows.map(u => `<div class="item" style="cursor:default">
+        <div><b>${esc(u.full_name || '(tiada nama)')}</b><br><span class="mute">${esc(u.email || '')}</span></div>
+        <span class="chip ${u.enabled ? 'st-selesai' : 'st-baru'}">${u.enabled ? (u.role === 'owner' ? 'Owner' : 'Staf aktif') : 'Belum aktif'}</span>
+        ${u.id === ctx.profile.id ? '<span class="sub">Akaun anda</span>' : `<div class="sub row" style="margin-top:6px">
+          <button class="btn sm${u.enabled ? ' danger' : ' pri'}" data-a="staf-on" data-uid="${esc(u.id)}" data-v="${u.enabled ? '0' : '1'}">${u.enabled ? 'Nyahaktif' : 'Aktifkan'}</button>
+          <button class="btn sm" data-a="staf-role" data-uid="${esc(u.id)}" data-v="${u.role === 'owner' ? 'staf' : 'owner'}">${u.role === 'owner' ? 'Jadikan Staf' : 'Jadikan Owner'}</button></div>`}
+      </div>`).join('') || '<div class="empty">Tiada akaun.</div>'}</div><p class="msg" id="s-msg">${esc(S.msg)}</p>`;
+  }
+
   function termaView() {
-    return `<button class="back" data-a="back">← Senarai Sewa</button><h2>Terma & Syarat</h2>
+    return `<button class="back" data-a="back">← Senarai Sewa</button><h2>Tetapan</h2>
+      ${ctx.manageStaff ? `<section class="card"><h3>No WhatsApp Abedin Car Rental</h3>
+        <p class="mute" style="margin-bottom:8px">Pelanggan boleh tekan butang WhatsApp selepas hantar borang. Format: 60123456789</p>
+        <div class="row"><input id="wa" inputmode="tel" placeholder="60123456789" value="${esc(S.wa ?? '')}" style="flex:1;min-width:180px"><button class="btn pri" data-a="save-wa">Simpan</button></div>
+        <p class="msg" id="w-msg"></p></section>` : ''}
+      <h2 style="margin-top:6px">Terma & Syarat</h2>
       <p class="mute">Teks ini dipaparkan pada borang pelanggan. Setiap perjanjian menyimpan salinan terma pada masa ia dihantar, jadi perubahan tidak menjejaskan perjanjian lama.</p>
       <section class="card"><textarea id="terma" style="min-height:360px">${S.terma === null ? 'Memuatkan…' : esc(S.terma)}</textarea>
       <div class="row" style="margin-top:10px;align-items:center"><button class="btn pri" data-a="save-terma">Simpan Terma</button><span class="msg" id="t-msg"></span></div></section>`;
   }
 
   function render() {
-    app.innerHTML = S.view === 'stok' ? stokView() : S.view === 'kereta' ? keretaForm() : S.view === 'edit' ? editView() : S.view === 'detail' ? detailView() : S.view === 'terma' ? termaView() : listView();
+    app.innerHTML = S.view === 'staf' ? stafView() : S.view === 'stok' ? stokView() : S.view === 'kereta' ? keretaForm() : S.view === 'edit' ? editView() : S.view === 'detail' ? detailView() : S.view === 'terma' ? termaView() : listView();
     if (S.view === 'edit') wireEdit(); else kira = () => {};
     if (S.view === 'kereta') wireKereta();
     const q = app.querySelector('#q');
@@ -507,8 +525,9 @@ export function mountSewa(host, ctx) {
     } else if (a === 'terma') {
       S.view = 'terma'; render();
       if (S.terma === null) {
-        const { data } = await client.from('sewa_settings').select('value').eq('key', 'terma').maybeSingle();
-        S.terma = data?.value || ''; if (S.view === 'terma') render();
+        const { data } = await client.from('sewa_settings').select('key,value').in('key', ['terma', 'whatsapp']);
+        const m = Object.fromEntries((data || []).map(x => [x.key, x.value]));
+        S.terma = m.terma || ''; S.wa = m.whatsapp || ''; if (S.view === 'terma') render();
       }
     } else if (a === 'save-terma') {
       const v = app.querySelector('#terma').value, m = app.querySelector('#t-msg');
@@ -516,6 +535,21 @@ export function mountSewa(host, ctx) {
       const { error } = await client.from('sewa_settings').upsert({ key: 'terma', value: v });
       if (error) { m.textContent = 'Gagal simpan: ' + error.message; m.classList.add('err'); return; }
       S.terma = v; m.textContent = 'Terma disimpan. Borang pelanggan kini memaparkan teks baharu.';
+    } else if (a === 'save-wa') {
+      const v = app.querySelector('#wa').value.replace(/\D/g, '').replace(/^0/, '60'), m = app.querySelector('#w-msg');
+      const { error } = await client.from('sewa_settings').upsert({ key: 'whatsapp', value: v });
+      if (error) { m.textContent = 'Gagal simpan: ' + error.message; m.classList.add('err'); return; }
+      S.wa = v; app.querySelector('#wa').value = v; m.classList.remove('err'); m.textContent = 'No WhatsApp disimpan.';
+    } else if (a === 'staf') {
+      S.view = 'staf'; S.msg = ''; S.staf = null; render();
+      const { data, error } = await client.from('profiles').select('id,email,full_name,role,enabled,created_at').order('created_at');
+      S.staf = data || []; S.msg = error ? 'Gagal muat: ' + error.message : ''; if (S.view === 'staf') render();
+    } else if (a === 'staf-on' || a === 'staf-role') {
+      const uid = t.dataset.uid, patch = a === 'staf-on' ? { enabled: t.dataset.v === '1' } : { role: t.dataset.v };
+      if (a === 'staf-role' && t.dataset.v === 'owner' && !confirm('Jadikan akaun ini Owner? Owner boleh ubah semua data, harga dan staf.')) return;
+      const { data, error } = await client.from('profiles').update(patch).eq('id', uid).select('id,email,full_name,role,enabled,created_at').single();
+      if (error) { S.msg = 'Gagal: ' + error.message; render(); return; }
+      S.staf = S.staf.map(x => x.id === uid ? data : x); S.msg = 'Dikemas kini.'; render();
     }
   });
 

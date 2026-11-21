@@ -84,6 +84,84 @@ textarea{resize:vertical;min-height:90px}
 .pk input{padding:9px 10px}
 .terma h4{margin:12px 0 4px;color:var(--gold);font-size:13px}.terma p{margin:0 0 6px}.terma p b{color:var(--gold)}
 .terma{font-size:13px;color:#cfd3da;max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#0b0f10}
+
+.kal-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#0b0f10;-webkit-overflow-scrolling:touch}
+.kal{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.kal th,.kal td{border-right:1px solid #1b2224;border-bottom:1px solid #1b2224;padding:0;height:38px;min-width:30px;text-align:center}
+.kal thead th{position:sticky;top:0;background:#121718;color:var(--mute);font-weight:700;padding:4px 2px;height:auto}
+.kal thead th small{display:block;font-size:9.5px;font-weight:500}
+.kal thead th.we{color:#d9a6a0}.kal th.kini{color:var(--gold)}
+.kal tbody th{position:sticky;left:0;z-index:1;background:#121718;text-align:left;padding:4px 10px;min-width:150px;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kal tbody th b{display:block;font-size:12px;overflow:hidden;text-overflow:ellipsis}.kal tbody th small{color:var(--mute);font-size:11px}
+.kal thead th:first-child{position:sticky;left:0;z-index:2;text-align:left;padding-left:10px}
+.kal td.kosong{background:#16231b}.kal td.lalu{background:#0d1112}
+.kal td.kini{box-shadow:inset 0 0 0 2px var(--gold)}
+.kal td.ada{background:var(--c);cursor:pointer;position:relative;color:#0b0d0e;font-weight:800;font-size:10.5px;text-align:left;white-space:nowrap;overflow:visible}
+.kal td.ada span{position:absolute;left:3px;top:50%;transform:translateY(-50%);z-index:1;pointer-events:none}
+.kal td.separa{background:repeating-linear-gradient(135deg,var(--c) 0 6px,#16231b 6px 10px)}
+.kal-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--mute)}
+.kal-bar{display:flex;flex-wrap:nowrap;align-items:center;gap:8px}.kal-bar b{flex:1}.kal-bar .btn{flex:none;min-width:44px}
+.kal-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+.kal-leg i.pt{background:repeating-linear-gradient(135deg,#7ea6ff 0 3px,#16231b 3px 5px)}
+
+/* Responsive Sewa workspace: use the full dashboard width. */
+:host,.shell,.wrap{display:block;width:100%;max-width:none;min-width:0}
+.shell{container-type:inline-size}
+.wrap{display:flex;flex-direction:column;gap:clamp(12px,1.5vw,20px)}
+.card,.head,.list,.item,.link,.row{min-width:0;max-width:100%}
+.card{padding:clamp(14px,1.8vw,24px)}
+.head>*{min-width:0}
+.row>*{max-width:100%}
+.row input{flex:1 1 220px!important;min-width:0!important}
+.row select{min-width:0!important;max-width:100%}
+.btn{max-width:100%;overflow-wrap:anywhere;text-align:center}
+.tabs{width:100%;min-width:0}
+.item{grid-template-columns:minmax(0,1fr) auto;overflow-wrap:anywhere}
+.item .sub{min-width:0;overflow-wrap:anywhere}
+.kv{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.docs{grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))}
+.ed{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ed>*{min-width:0}
+.pk{min-width:0;table-layout:fixed}
+.pk th,.pk td{overflow-wrap:anywhere}
+.pk td:first-child{width:25%}
+.pk td:last-child{width:52px}
+.pk input{min-width:0;font-size:16px}
+input,select,textarea{max-width:100%;min-width:0;font-size:16px}
+.savebar{bottom:calc(10px + env(safe-area-inset-bottom,0px));min-width:0}
+@container (min-width:950px){
+ .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+ .item{height:100%}
+ .card{border-radius:20px}
+ .stbar{gap:10px}
+}
+@container (max-width:720px){
+ .card{padding:15px;border-radius:15px}
+ .ed{grid-template-columns:minmax(0,1fr)}
+ .ed .full,.ed h4{grid-column:auto}
+ .head{flex-direction:column;align-items:stretch}
+ .head .row{width:100%}
+ .stbar{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .savebar{bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+}
+@container (max-width:450px){
+ h2{font-size:20px}
+ .row{flex-direction:column;align-items:stretch}
+ .row>.btn,.row>input,.row>select{width:100%;flex:0 0 auto}
+ .tabs{gap:5px}
+ .tab{padding:9px 11px}
+ .item{padding:13px;gap:7px}
+ .item b{font-size:14px}
+ .kv{grid-template-columns:1fr}
+ .seg2{flex-direction:column}
+ .savebar{flex-direction:column;align-items:stretch}
+ .savebar .btn{width:100%}
+ .pk th{font-size:11px}
+ .pk td{padding-right:3px}
+ .pk td:first-child{width:26%}
+ .pk td:last-child{width:40px}
+ .pk input{padding:8px 5px}
+}
 `;
 
 const STATUS = { baru: 'Baru', disahkan: 'Disahkan', selesai: 'Selesai', batal: 'Batal' };
@@ -293,7 +371,7 @@ export function mountSewa(host, ctx) {
   const app = root.getElementById('app');
   const formUrl = ctx.publicFormUrl || new URL(ctx.formPath || 'sewa.html', location.href.split('#')[0].split('?')[0]).href;
   const logoSrc = SEWA_LOGO;
-  const S = { staf: null, wa: null, kereta: [], keretaErr: '', kid: null, rows: [], loaded: false, error: '', filter: 'semua', q: '', view: 'list', id: null, terma: null, urls: {}, msg: '' };
+  const S = { bulan: null, staf: null, wa: null, kereta: [], keretaErr: '', kid: null, rows: [], loaded: false, error: '', filter: 'semua', q: '', view: 'list', id: null, terma: null, urls: {}, msg: '' };
 
   async function load() {
     S.error = '';
@@ -329,15 +407,16 @@ export function mountSewa(host, ctx) {
       <div class="brand"><img src="abedin-car-rental-logo.webp" alt="Abedin Car Rental"></div></div>
       ${shareCard()}
       <div class="tabs">${['semua', ...Object.keys(STATUS)].map(k => `<button class="tab" data-f="${k}" aria-pressed="${S.filter === k}">${k === 'semua' ? 'Semua' : STATUS[k]}<i>${counts[k]}</i></button>`).join('')}
+      <button class="tab" data-a="kalendar" aria-pressed="false">📅 Kalendar</button>
       <button class="tab" data-a="stok" aria-pressed="false">🚗 Stok Kereta<i>${S.kereta.length}</i></button>
       ${owner ? `<button class="tab" data-a="terma" aria-pressed="false">⚙ Tetapan</button>${ctx.manageStaff ? '<button class="tab" data-a="staf" aria-pressed="false">👤 Staf</button>' : ''}` : ''}</div>
       <div class="row"><input id="q" placeholder="Cari nama, no rujukan, telefon, model…" value="${esc(S.q)}" style="flex:1;min-width:200px"><button class="btn" data-a="refresh">Refresh</button></div>
       ${S.error ? `<div class="card" style="border-color:#5a2a26;color:var(--bad)">${esc(S.error)}</div>` : ''}
-      <div class="list">${!S.loaded ? '<div class="empty">Memuatkan…</div>' : rows.map(r => `
+      <div class="list">${!S.loaded ? '<div class="empty">Memuatkan…</div>' : (window.adaPg?window.adaPg.rows('sewa',rows,render):rows).map(r => `
         <button class="item" data-open="${r.id}"><div><span class="ref">${esc(r.ref_no)}</span><br><b>${esc(r.nama)}</b></div>
         <span style="display:flex;flex-direction:column;gap:4px;align-items:flex-end"><span class="chip st-${r.status}">${STATUS[r.status] || r.status}</span>${(b => `<span class="chip ${b.cls}" style="opacity:.9">${b.t}</span>`)(statusBayar(r))}</span>
         <span class="sub">${esc(r.model)}${r.no_pendaftaran ? ' (' + esc(r.no_pendaftaran) + ')' : ''} · ${jenisTxt(r.jenis_sewa)}${r.jenis_harga === 'agen' ? ' · Agen' + (r.nama_agen ? ': ' + esc(r.nama_agen) : '') : ''} · ${dmy(r.ambil_tarikh)} ${hm(r.ambil_masa)} → ${dmy(r.pulang_tarikh)} ${hm(r.pulang_masa)}<br>${esc(r.telefon)} · dihantar ${when(r.created_at)}</span></button>`).join('')
-        || `<div class="empty">${S.rows.length ? 'Tiada padanan.' : 'Belum ada Perjanjian Sewa. Kongsi pautan borang kepada pelanggan.'}</div>`}</div>`;
+        || `<div class="empty">${S.rows.length ? 'Tiada padanan.' : 'Belum ada Perjanjian Sewa. Kongsi pautan borang kepada pelanggan.'}</div>`}</div>${S.loaded?(window.adaPg?window.adaPg.nav('sewa',rows.length):''):''}`;
   }
 
   function kv(pairs) { return `<div class="kv">${pairs.map(([k, v]) => `<div><small>${k}</small><span>${esc(v || '-')}</span></div>`).join('')}</div>`; }
@@ -601,6 +680,36 @@ export function mountSewa(host, ctx) {
       </div>`).join('') || '<div class="empty">Tiada akaun.</div>'}</div><p class="msg" id="s-msg">${esc(S.msg)}</p>`;
   }
 
+  function kalendarView() {
+    const now = new Date(), b = S.bulan || new Date(now.getFullYear(), now.getMonth(), 1);
+    const y = b.getFullYear(), mo = b.getMonth(), nd = new Date(y, mo + 1, 0).getDate();
+    const hari = Array.from({ length: nd }, (_, i) => new Date(y, mo, i + 1));
+    const todayKey = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const namaBulan = b.toLocaleDateString('ms-MY', { month: 'long', year: 'numeric' });
+    const warna = { baru: '#e6b75d', disahkan: '#7ea6ff', selesai: '#45c98b', batal: '#6b7280' };
+    const kereta = S.kereta.slice().sort((p, q) => p.model.localeCompare(q.model));
+    const sel = (k, d) => {
+      const a = d.getTime(), z = a + 864e5;
+      return S.rows.filter(r => r.kereta_id === k.id && mula(r).getTime() < z && akhir(r).getTime() > a);
+    };
+    const bilKosong = kereta.filter(k => k.status === 'aktif').length;
+    const rowsHtml = kereta.map(k => `<tr><th><b>${esc(k.model)}</b><small>${esc(k.no_pendaftaran)}${k.status !== 'aktif' ? ' · ' + KSTATUS[k.status] : ''}</small></th>${hari.map(d => {
+      const t = sel(k, d), lalu = d.getTime() < todayKey;
+      if (!t.length) return `<td class="${lalu ? 'lalu' : 'kosong'}${d.getTime() === todayKey ? ' kini' : ''}"></td>`;
+      const r = t[0], mulaHari = mula(r).toDateString() === d.toDateString(), full = t.every(x => mula(x) <= d && akhir(x).getTime() >= d.getTime() + 864e5);
+      return `<td class="ada${full ? '' : ' separa'}${d.getTime() === todayKey ? ' kini' : ''}" style="--c:${warna[r.status] || '#7ea6ff'}" data-open="${r.id}" title="${esc(r.ref_no + ' · ' + r.nama + ' · ' + dmy(r.ambil_tarikh) + ' ' + hm(r.ambil_masa) + ' → ' + dmy(r.pulang_tarikh) + ' ' + hm(r.pulang_masa))}">${mulaHari ? `<span>${esc(r.nama.split(' ')[0])}</span>` : ''}</td>`;
+    }).join('')}</tr>`).join('');
+    const tanpa = S.rows.filter(r => !r.kereta_id && r.status !== 'batal' && akhir(r) >= new Date(y, mo, 1) && mula(r) < new Date(y, mo + 1, 1));
+    return `<button class="back" data-a="back">← Senarai Sewa</button>
+      <div class="head"><div><h2>Kalendar Kereta</h2><p class="mute">Petak berwarna = sudah ditempah. Petak kosong = kereta masih available. Tekan petak untuk buka tempahan.</p></div></div>
+      <div class="kal-bar"><button class="btn sm" data-a="kal-prev">‹</button><b style="min-width:150px;text-align:center;text-transform:capitalize">${esc(namaBulan)}</b><button class="btn sm" data-a="kal-next">›</button><button class="btn sm" data-a="kal-today">Bulan ini</button></div>
+      <div class="kal-leg">${Object.entries(warna).map(([k, c]) => `<span><i style="background:${c}"></i>${STATUS[k]}</span>`).join('')}<span><i class="pt"></i>Separa hari</span><span><i style="background:#16231b;border:1px solid #2f4a37"></i>Available</span></div>
+      ${S.kereta.length ? `<div class="kal-wrap"><table class="kal"><thead><tr><th>Kereta</th>${hari.map(d => `<th class="${d.getDay() === 0 || d.getDay() === 6 ? 'we' : ''}${d.getTime() === todayKey ? ' kini' : ''}"><small>${['Ah', 'Is', 'Se', 'Ra', 'Kh', 'Ju', 'Sa'][d.getDay()]}</small>${d.getDate()}</th>`).join('')}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`
+        : '<div class="empty">Tiada kereta dalam stok. Tambah di 🚗 Stok Kereta.</div>'}
+      <p class="mute">${bilKosong} kereta aktif. Tempahan bertindih pada kereta yang sama disekat oleh sistem; tempahan hanya dilepaskan apabila dipadam oleh Owner.</p>
+      ${tanpa.length ? `<section class="card" style="border-color:#5a4a20"><h3>Belum ditetapkan kereta (${tanpa.length})</h3><div class="list">${tanpa.map(r => `<button class="item" data-open="${r.id}"><div><span class="ref">${esc(r.ref_no)}</span><br><b>${esc(r.nama)}</b></div><span class="chip st-${r.status}">${STATUS[r.status]}</span><span class="sub">${esc(r.model)} · ${dmy(r.ambil_tarikh)} ${hm(r.ambil_masa)} → ${dmy(r.pulang_tarikh)} ${hm(r.pulang_masa)} — pilih kereta dalam Edit Dokumen Sewa</span></button>`).join('')}</div></section>` : ''}`;
+  }
+
   function termaView() {
     return `<button class="back" data-a="back">← Senarai Sewa</button><h2>Tetapan</h2>
       ${ctx.manageStaff ? `<section class="card"><h3>No WhatsApp Abedin Car Rental</h3>
@@ -614,7 +723,7 @@ export function mountSewa(host, ctx) {
   }
 
   function render() {
-    app.innerHTML = S.view === 'staf' ? stafView() : S.view === 'stok' ? stokView() : S.view === 'kereta' ? keretaForm() : S.view === 'edit' ? editView() : S.view === 'detail' ? detailView() : S.view === 'terma' ? termaView() : listView();
+    app.innerHTML = S.view === 'kalendar' ? kalendarView() : S.view === 'staf' ? stafView() : S.view === 'stok' ? stokView() : S.view === 'kereta' ? keretaForm() : S.view === 'edit' ? editView() : S.view === 'detail' ? detailView() : S.view === 'terma' ? termaView() : listView();
     if (S.view === 'edit') wireEdit(); else kira = () => {};
     if (S.view === 'kereta') wireKereta();
     const q = app.querySelector('#q');
@@ -752,6 +861,11 @@ export function mountSewa(host, ctx) {
     else if (a === 'nota' && r) { update(r.id, { nota_staf: app.querySelector('#nota').value.trim() || null }, 'Nota disimpan.'); }
     else if (a === 'print' && r) printAgreement(r);
     else if (a === 'stok') { S.view = 'stok'; render(); scrollTo(0, 0); }
+    else if (a === 'kalendar') { S.view = 'kalendar'; render(); scrollTo(0, 0); }
+    else if (a === 'kal-prev' || a === 'kal-next' || a === 'kal-today') {
+      const b = S.bulan || new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      S.bulan = a === 'kal-today' ? null : new Date(b.getFullYear(), b.getMonth() + (a === 'kal-next' ? 1 : -1), 1); render();
+    }
     else if (a === 'kira') kira(true);
     else if (a === 'pk-add') { app.querySelector('#pk-body').insertAdjacentHTML('beforeend', pakejRow()); app.querySelector('#pk-body tr:last-child input').focus(); }
     else if (a === 'pk-del') { t.closest('tr').remove(); app.querySelector('#pk-body').dispatchEvent(new Event('input')); }
@@ -791,7 +905,7 @@ export function mountSewa(host, ctx) {
       t.disabled = false;
       if (error) {
         pw?.close();
-        m.textContent = 'Gagal simpan: ' + (/sewa_tarikh_valid/.test(error.message) ? 'tarikh/masa pulang mesti selepas tarikh/masa ambil.' : error.message);
+        m.textContent = 'Gagal simpan: ' + (/sewa_no_tindih|exclusion/i.test(error.message) ? 'kereta ini sudah ditempah pada masa yang bertindih. Pilih kereta lain atau ubah tarikh. Tempahan lama hanya dilepaskan jika dipadam oleh Owner.' : /sewa_tarikh_valid/.test(error.message) ? 'tarikh/masa pulang mesti selepas tarikh/masa ambil.' : error.message);
         m.classList.add('err'); return;
       }
       S.rows = S.rows.map(x => x.id === r.id ? data : x);
